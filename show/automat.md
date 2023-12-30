@@ -53,8 +53,8 @@
 
 *首先自定义系统状态，接着编写触发事件和状态转移函数（动作+变换）*  
 下面是云台状态简单的有向图展示  
-![](https://github.com/sos-xiaobai/A-First-Course-in-Optimization-Theory/blob/main/images/graph.png?raw=true)
-
+![](https://github.com/sos-xiaobai/A-First-Course-in-Optimization-Theory/blob/main/images/graph.png?raw=true)   
+> - ### 同志们，让我们抛弃那些（***一写就忘，只有你能看懂，三天之后必重新学一遍的***）标志位，投入（***逻辑清晰，移植性强的***）状态机的怀抱！！！
 ## 5. 伪代码实现
     class FiniteStateMachine:
         def __init__(self):
