@@ -12,7 +12,7 @@
   - [3. 状态机各行业的应用](#3-状态机各行业的应用)
   - [4. 状态机对电控程序的帮助](#4-状态机对电控程序的帮助)
     - [4.1 为我所用的东西](#41-为我所用的东西)
-  - [5. 伪代码实现](#5-伪代码实现)
+  - [5. C++伪代码实现](#5-c伪代码实现)
   - [6. 参考资料](#6-参考资料)
 
 <!-- /TOC -->
@@ -55,53 +55,60 @@
 下面是云台状态简单的有向图展示  
 ![](https://github.com/sos-xiaobai/A-First-Course-in-Optimization-Theory/blob/main/images/graph.png?raw=true)   
 > - ### 同志们，让我们抛弃那些（***一写就忘，只有你能看懂，三天之后必重新学一遍的***）标志位，投入（***逻辑清晰，移植性强的***）状态机的怀抱！！！
-## 5. 伪代码实现
-    class FiniteStateMachine:
-        def __init__(self):
-            # 初始状态为停火状态
-            self.current_state = '停火'
-            # 初始状态标志位
-            self.fire_flag = False
-            # 初始状态卡弹标志位
-            self.jam_flag = True
+## 5. C++伪代码实现
+    class FiniteStateMachine {
+    public:
+        FiniteStateMachine() {
+            // 初始状态为停火状态
+            current_state = "停火";
+            // 初始状态停火指令标志位
+            fire_command = false;
+            // 初始状态卡弹标志位
+            jam_flag = true;
+        }
 
-        def transition_to_fire(self):
-            # 从停火状态转移到开机状态的条件是停火标志位为True
-            if self.fire_flag:
-                self.current_state = '开机'
-                print("从停火状态转到开机状态")
-            else:
-                print("停火标志位未触发，无法转到开机状态")
+        void receive_fire_command() {
+            // 接收停火指令
+            fire_command = true;
+            std::cout << "接收到停火指令" << std::endl;
+        }
 
-        def transition_to_jam(self):
-            # 从停火状态转移到卡弹状态的条件是检测到卡弹
-            if self.jam_flag:
-                self.current_state = '卡弹'
-                print("从停火状态转到卡弹状态")
-            else:
-                print("未检测到卡弹，无法转到卡弹状态")
+        void transition_to_fire() {
+            // 从停火状态转移到开机状态的条件是得到停火指令
+            if (fire_command) {
+                current_state = "开机";
+                std::cout << "从停火状态转到开机状态" << std::endl;
+            } else {
+                std::cout << "未接收到停火指令，无法转到开机状态" << std::endl;
+            }
+        }
 
-        def transition_to_fire_from_jam(self):
-            # 从卡弹状态转移到开机状态的条件是不卡弹
-            if not self.jam_flag:
-                self.current_state = '开机'
-                print("从卡弹状态转到开机状态")
-            else:
-                print("仍然卡弹，无法转到开机状态")
+        void transition_to_jam() {
+            // 从停火状态转移到卡弹状态的条件是检测到卡弹
+            if (jam_flag) {
+                current_state = "卡弹";
+                std::cout << "从停火状态转到卡弹状态" << std::endl;
+            } else {
+                std::cout << "未检测到卡弹，无法转到卡弹状态" << std::endl;
+            }
+        }
 
-        //创建有限自动机实例
-        fsm = FiniteStateMachine()
+        void transition_to_fire_from_jam() {
+            // 从卡弹状态转移到开机状态的条件是不卡弹
+            if (!jam_flag) {
+                current_state = "开机";
+                std::cout << "从卡弹状态转到开机状态" << std::endl;
+            } else {
+                std::cout << "仍然卡弹，无法转到开机状态" << std::endl;
+            }
+        }
 
-        //模拟状态转移
-        fsm.transition_to_fire()  # 停火状态转到开机状态（条件满足）
-        fsm.transition_to_jam()   # 无法从开机状态转到卡弹状态（条件不满足）
-        fsm.transition_to_fire_from_jam()  # 无法从卡弹状态转到开机状态（条件不满足）
+    private:
+        std::string current_state;
+        bool fire_command;
+        bool jam_flag;
+    };
 
-        //更新标志位
-        fsm.jam_flag = False
-        
-        //再次模拟状态转移
-        fsm.transition_to_fire_from_jam()  # 从卡弹状态转到开机状态（条件满足）
 ## 6. 参考资料  
 [1][ 状态机：史上最棒的机制][1]  
 [2][ 什么是状态机？][2]  
